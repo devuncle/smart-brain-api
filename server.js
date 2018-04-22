@@ -1,17 +1,20 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const bcrypt = require('bcrypt-nodejs');
+const cors = require('cors');
 
 const app = express();
 
 app.use(bodyParser.json());
+app.use(cors());
 
 let datebase = {
   users: [
     {
       id: "123",
       name: "John",
-      email: "John@163.com",
+      email: "john@163.com",
+      password: 'cookies',
       entries: 5,
       joined: new Date()
     },
@@ -19,6 +22,7 @@ let datebase = {
       id: "124",
       name: "Sally",
       email: "sally@gmail.com",
+      password: 'bananas',
       entries: 0,
       joined: new Date()
     }
@@ -37,16 +41,20 @@ let datebase = {
   ]
 };
 
+
+
 app.get("/", (req, res) => {
 //   res.send("this is working");
   res.send(datebase.users);
 });
 
+
+
 app.post("/signin", (req, res) => {
   if (req.body.email === "john@163.com" && req.body.password === "cookies") {
-    res.json("OK! susscess");
+    res.json("success");
   } else {
-    res.status("400").json("err password");
+    res.status(400).json("err password");
   }
 });
 
